@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+
+  gooseGameAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors:
+        AllowHeaders: "'Authorization, content-type'"
+        AllowOrigin: "'*'"
+
+  demoFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: ./service/build/adapters/rest/registration/registration_resource.getNewRegistration
+      Runtime: nodejs10.x
+      CodeUri: .
+      Description: >-
+        Creates a new meter
+      MemorySize: 128
+      Timeout: 20
+      ReservedConcurrentExecutions: 10
+      Environment:
+        Variables:
+          NODE_ENV: dev
+          REGION: eu-west-1
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            RestApiId: !Ref gooseGameAPI
+            Path: /
+            Method: get
+
+
