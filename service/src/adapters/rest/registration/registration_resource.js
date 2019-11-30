@@ -1,6 +1,6 @@
 import {corsHeaders} from "../../../configuration";
 
-exports.getNewRegistration = async ({
+export const getNewRegistration = async ({
     queryStringParameters = {},
     },
     context
@@ -14,3 +14,6 @@ exports.getNewRegistration = async ({
     };
 };
 
+export default {
+    getNewRegistration,
+};
